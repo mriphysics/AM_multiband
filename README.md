@@ -1,4 +1,16 @@
-# AM_multiband
-Simple optimization to compute slice phase offsets for multi-band RF pulses. This work was presented at ISMRM 2015, program number 2398.
+11/11/2016
+Design AM Multiband pulses using modified versions of Phase-optimization (Wong 2012), Time-shifting (Auerbach 2013) and Root-flipping (Sharma 2016) to produce AM-only pulses.
+Each pulse design method is contained within a folder with a main function (phaseopt_fn, timeshift_fn and rootflip_fn).
+Running the script Design_Multiband.m designs Normal or AM-only pulses using the three methods and plots the RF pulses and slice profiles.
 
-The script MB_optimal_phase.m can be used to compute optimized slice phase offsets for reducing peak pulse amplitudes for any number of excited slices (multi band factor, MBF). The script can be used for full complex modulation (AM/FM) or just AM which is the subject of the poster referenced above. For more information you can download the submitted abstract from [here](https://kclpure.kcl.ac.uk/portal/files/35847819/mb_AM_submitted.pdf)
+This requires the following:
+*  CVX from (http://cvxr.com/cvx/).
+*  Pauly's RF tools from (http://rsl.stanford.edu/research/software.html).
+
+For contact:
+Samy Abo Seada
+samy.abo_seada@kcl.ac.uk
+
+Shaihan Malik
+shaihan.malik@kcl.ac.uk
+King's College London, 2016.
