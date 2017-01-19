@@ -2,16 +2,30 @@ function [ rf90, rf180,tb] = rootflip_fn(n,nb,tblin,bandsep,CS)
 % 31/10/2015 sas Function that returns a pair of root-flipped pulses for a
 % spin-echo sequence. The returned pulses are scaled in radians and defined
 % in normalized time given by n-time points for the refocusing pulse and
-% 2*n-time points for the excitation pulse
+% 2*n-time points for the excitation pulse.
 
-
+% Input:
 % n  : number of time points
 % nb : number of bands/slices
-% tb : Time-bandwidth product
+% tblin : Time-bandwidth product
 % bandsep : number of slices of separation between bands (measured from
 % passband centre to passband centre)
 % alignedecho = 0; % 0 = design a minimum-duration 90
 % CS :% Boolean for conjugate Symmetry. 1 for AM pulses
+
+% Output:
+% rf90 - excitation pulse in radians, with length 2*n
+% rf180- refocusing pulse in radians, with length n
+% tb   - the new time-bandwidth product after the lin-phase to min-phase
+% transformation. see eq.10 in Sharma et al. Use this outside the function
+% to find the Bandwidth and hence gradient waveform.
+
+% Adapated from code released by Sharma et al
+% (http://www.vuiis.vanderbilt.edu/~grissowa/software.html)
+
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
 
 bandsep = bandsep*tblin;
 
@@ -98,17 +112,17 @@ x = [x;x(end-1:-1:1)]';
 blin=x;
 % factor the linear phase filter to get a min-phase filter b
 % b = real(fmp(x));
-
+% sas - Use a new function fmp2 instead of fmp to distinguish from the fmp
+% function in Pauly's RF toolbox, which has lower oversampling can
+% introduce amplified ripples.
 b = real(fmp2(x));
 b = b(end:-1:1);
 
 % root flip h!
 ntrials = ceil(tb)*nb*100; % number of monte carlo trials
-% ntrials = ceil(tb)*nb*20; % number of monte carlo trials
 
 % sas- Note How TBW scaling is used in the selection of passband locations
 bp = 2*((1:nb)-1/2-nb/2)*bandsep/n*pi*dinfmin/dinflin; % centers of passbands
-% sas - find bp as coordinates
 
 flip=pi;
 N = length(b); % number of time points in pulse
@@ -116,8 +130,6 @@ N = length(b); % number of time points in pulse
 b = b./max(abs(fft(b))); % normalized beta coefficients
 
 b = b*sin(flip/2 + atan(d1*2)/2); % scale to target flip angle
-
-% sas 26/5
 
 [~,a] = b2amp(b);
 
@@ -131,7 +143,7 @@ r = r(idx);
 btmx = zeros(ntrials,n);
 
 minpeakrf = Inf;
-maxpeakrf = rfinit_max; %Consider assigning to zero.
+maxpeakrf = rfinit_max;
 
 % Try using GA tool-box. If not available on system, resort to simple
 % Monte-carlo.
@@ -145,7 +157,7 @@ try
     elseif CS==1
         symtype='CS';
     end
-
+    % Number of optimization variables
     Nvars=floor(nPb/2);
 
     costfun=@(p)flip2peak(N-1,r,(tb/N*pi)*3,bp-pi/N,p,symtype,d1);
@@ -161,7 +173,7 @@ try
     popt=ga(costfun,Nvars,[],[],[],[],zeros(1,Nvars),ones(1,Nvars),[],1:Nvars,options);
     [rf180,optpeak,bestflips] = flip2rf(N-1,r,(tb/N*pi)*3,bp-pi/N,popt,symtype,d1);
 
-    fprintf('Peak went from %d to %d\n',rfinit_max,optpeak);
+    fprintf('Peak went from %d to %d rad\n',rfinit_max,optpeak);
 
     % 18/04/16 Undo the -conj() in the islr1 which happens inside flip2rf:
 
@@ -222,8 +234,7 @@ catch ME
     
     if rem(ii,50) == 0
         fprintf('Iteration %d of %d. Peak RF: %0.2d rad. Peak init RF: %0.2d rad.\n', ...
-            ii,ntrials,minpeakrf,rfinit_max);
-        
+            ii,ntrials,minpeakrf,rfinit_max);        
     end
     
     end
@@ -255,6 +266,6 @@ catch ME
 
 end
 
-% Output rows
+% Output columns
 rf90 = rf90(:);
 rf180 = rf180(:);

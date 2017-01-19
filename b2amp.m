@@ -9,6 +9,10 @@ function [ an,ac] = b2amp( bc,osn )
 % subsequent excitation profiles. Furthermore, Pauly's b2a.c code also
 % zeropads by I believe 16*length(bc).
 
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
+
 N = length(bc);
 % Find Over-sampling factor. The exp-term makes sure the zeropadded length
 % is a power of two (for FFT efficiency), even if N is not. Run
@@ -16,6 +20,7 @@ N = length(bc);
 
 % OS = 32*exp(ceil(log(N)/log(2))*log(2));
 % 18/03/16 Allow user input for oversampling
+
 if nargin < 2
     osn = 32;
 end

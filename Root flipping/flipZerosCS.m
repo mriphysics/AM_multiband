@@ -1,6 +1,8 @@
 function flip = flipZerosCS(N,r,wp,bp)
 
-% Beta polynomial root flipping 
+% Beta polynomial root flipping for Conjugate Symmetry (needed for AM-only
+% pulses).
+
 % Inputs:
 %   b: beta coefficients
 %   ntrials: # monte-carlo trials
@@ -14,9 +16,9 @@ function flip = flipZerosCS(N,r,wp,bp)
 % Adapted from Miki Lustig's flipZeros code by Will Grissom and Anuj Sharma
 % Vanderbilt University, 2015
 
-
-% Further adapted by Samy Abo Seada for Amplitude Modulated Root-flipping
-% Kings College London, 2016
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
 
 % find the indices of the bands
 w = (-N/2+1:N/2)/N*2*pi;

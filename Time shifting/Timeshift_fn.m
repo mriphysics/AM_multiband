@@ -1,9 +1,22 @@
 function [ rfmb ] = Timeshift_fn( rfsb,mb,tb,bs,frac_shift,AM_only )
-%TIMESHIFT_FN Summary of this function goes here
-%   Detailed explanation goes here
+%TIMESHIFT_FN - Creates a phase-optimized Time-shifted Multiband pulse
+%based on a specified time-shift.
 
-% frac_shift: fractional shift between 0 and 1. A shift of 0 implies
-% no-shift and results in Wong's method. A shift of 1 doubles the duration.
+%   rfsb : Nx1 or 1x N vector specifing the underlying single-band waveform.
+%   mb   : Multiband factor. The number of slices required. Integer valued.
+%   tb   : Time-bandwidth prodcut [dimensionless].
+%   bs   : band-separation in unit of slice-thicknesses, slice centre to
+%   frac_shift: fractional shift between 0 and 1. A shift of 0 implies
+%               no-shift and results in Wong's method. A shift of 1 doubles the duration.
+
+%   AM_only: Boolean value. Set to 0 for Wong [2012] method and to 1 to
+%   create a phase-optimized Multiband pulse which only contains Amplitude
+%   modulation.
+
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
+
         rfsb = rfsb(:);
         rfsb = rfsb';
         % Create a zero-padded version of the single-band waveform
@@ -13,8 +26,7 @@ function [ rfmb ] = Timeshift_fn( rfsb,mb,tb,bs,frac_shift,AM_only )
         M = length(rfsb_zp);
         t = 0:1/(M-1):1;
         
-        spos = (1:mb)-(mb+1)/2; 
-%         phi_sel = 2*pi*tb*bs*t(:)*spos;
+        spos = (1:mb)-(mb+1)/2;
         phi_sel = 2*2*pi*tb*bs*t(:)*spos;
 
         if AM_only
@@ -24,6 +36,7 @@ function [ rfmb ] = Timeshift_fn( rfsb,mb,tb,bs,frac_shift,AM_only )
             Nvar = mb;
         end
 
+        %%% Define lower and upper-bound for constrained optimization
         lb = zeros([1 Nvar]);
         ub = [2*pi*ones([1 Nvar])];
 
@@ -123,9 +136,6 @@ for ii=1:mb
     
     % use linear resampling? Nearest doesn't require correction later..
     pulseMB(:,ii) = interp1(1:M,pulseMB(:,ii),(1:M)-tau(ii),'nearest');
-    
-    %correct sampling error in amplitude: not reqd if use NN
-    %pulseMB(:,ii) = pulseMB(:,ii) * max(pulseSB)/max(abs(pulseMB(:,ii)));
 end
 pulseMB(isnan(pulseMB))=0;
 

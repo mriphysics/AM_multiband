@@ -11,6 +11,10 @@ function [rf180,peak,doflip] = flip2rf(N,r,wp,bp,p,symtype,d1)
 % from Miki Lustig. This function will be used in a genetic algorithm
 % implementation of root-flipping
 
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
+
 w = (-N/2+1:N/2)/N*2*pi;
 idxPass = [];
 for ii = 1:length(bp)

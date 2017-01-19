@@ -7,7 +7,14 @@ function [ B1_slr] = islr(Ap,Bp)
 
 % Ap: Ntx1 vector containing alpha-polynomial coefficients.
 % Bp: Ntx1 vector containing beta-polynomial coefficients.
- 
+
+% Output:
+% B1_slr: Ntx1 vector containing SLR pulse.
+
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
+
 Nt=length(Ap);
     for j=Nt:-1:1
         A0=Ap(1);

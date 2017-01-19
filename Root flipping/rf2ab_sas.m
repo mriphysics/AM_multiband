@@ -13,6 +13,10 @@ function [a,b] = rf2ab_sas(B1,gamgdt,r,Anime)
 %  sas - 29/05/2015 Modify such that it runs without specifying Gradient.
 %  This is such that it can run with the rootflipping code.
 
+% Please use under MIT license (Copyright (c) 2015 mriphysics)
+% Samy Abo Seada, Anthony Price, Jo Hajnal and Shaihan Malik. January 2017
+% King's College London
+
 Nt=length(B1);
 if nargin == 3, %gamgdt not specified
   Anime=r;
