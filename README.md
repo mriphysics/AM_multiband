@@ -26,16 +26,16 @@ Here's an example of what that looks like for a multiband 6 RF pulse.
 
 ## Theory
 To design optimized AM Multiband RF pulses we hypothesised that its frequency representation must be conjugate-symmetric. This is because real functions have Fourier transforms which are conjugate-symmetric. This implies that the desired Multiband slice profiles should consist of even magnitude profiles and odd phase profiles. An illustration of what this means for a Multiband 3 example is shown
-<img src="bin/fig1.tif" alt="fig1" width="70%">
+<img src="bin/fig1.png" alt="fig1" width="70%">
 
 ## Results
 Slice profile measurements at 3T using unconstrained and AM-only Multiband 6 pulses (Using the RF pulses the figure above).
-<img src="bin/fig8.tif" alt="fig8" width="30%">
+<img src="bin/fig8.tif" alt="fig8" width="5%">
 
 Notice how the stop-band artefacts worsen with higher slice separations. This is because the rate of FM increases proportionally with the slice separation.
 
 These artifacts manifest themselves as a mixture of blurring, signal leaking and reconstruction errors.
-<img src="bin/fig9.tif" alt="fig8" width="30%">
+<img src="bin/fig9.tif" alt="fig9" width="30%">
 (MB4 Gradient-echo single-shot EPI)
 
 Because AM-only pulses are more constrained, it's expected that they will be less efficient than their unconstrained  equivalents. This cost in duration (or equivalently, in an increase in B1-amplitude) was found to be:
@@ -44,7 +44,7 @@ Because AM-only pulses are more constrained, it's expected that they will be les
 * 20% for AM root-flipping
 
 Here's a figure showing how for each method the duration cost varies across Multiband factors and slice-separations:
-<img src="bin/fig1.tif" alt="fig1" width="70%">
+<img src="bin/fig5.tif" alt="fig1" width="70%">
 
 13/01/2017
 For contact:
