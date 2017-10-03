@@ -30,12 +30,12 @@ To design optimized AM Multiband RF pulses we hypothesised that its frequency re
 
 ## Results
 Slice profile measurements at 3T using unconstrained and AM-only Multiband 6 pulses (Using the RF pulses the figure above).
-<img src="bin/fig8.png" alt="fig8" width="5%">
+<img src="bin/fig8.png" alt="fig8" width="70%">
 
 Notice how the stop-band artefacts worsen with higher slice separations. This is because the rate of FM increases proportionally with the slice separation.
 
 These artifacts manifest themselves as a mixture of blurring, signal leaking and reconstruction errors.
-<img src="bin/fig9.png" alt="fig9" width="30%">
+<img src="bin/fig9.png" alt="fig9" width="80%">
 (MB4 Gradient-echo single-shot EPI)
 
 Because AM-only pulses are more constrained, it's expected that they will be less efficient than their unconstrained  equivalents. This cost in duration (or equivalently, in an increase in B1-amplitude) was found to be:
