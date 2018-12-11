@@ -80,7 +80,7 @@ function [ rfmb ] = Timeshift_fn( rfsb,mb,tb,bs,frac_shift,AM_only )
 
         %%% Add in fminsearch to help get to the local minimum
         opt = optimset('MaxIter',100);
-        x_sol = fminsearch(costfun,x_sol,'opt');
+        x_sol = fminsearch(costfun,x_sol,options);
 
         if AM_only
             [pulseMB,~] = timeshiftmb(rfsb_zp,phi_sel,x_sol,tau,'AM');
